@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   name: redirect-www
   annotations:
-    nginx.ingress.kubernetes.io/permanent-redirect: https://hkhviet.xyz$request_uri
+    nginx.ingress.kubernetes.io/permanent-redirect: "https://hkhviet.xyz$request_uri"
 spec:
   ingressClassName: nginx
   rules:
