@@ -1,18 +1,13 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ingress-service
+  name: redirect-www
   annotations:
-    kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/use-regex: "true"
-    nginx.ingress.kubernetes.io/server-snippet: |
-      if ($host = 'www.hkhviet.xyz') {
-        return 301 https://hkhviet.xyz$request_uri;
-      }
+    nginx.ingress.kubernetes.io/permanent-redirect: https://hkhviet.xyz$request_uri
 spec:
-  ingressClassName: nginx  # <-- DÒNG QUAN TRỌNG
+  ingressClassName: nginx
   rules:
-    - host: hkhviet.xyz
+    - host: www.hkhviet.xyz
       http:
         paths:
           - path: /api/payments/
