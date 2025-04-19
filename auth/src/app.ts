@@ -2,8 +2,7 @@ import express from 'express';
 import 'express-async-errors';
 import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
-import { errorHandler as defaultErrorHandler, NotFoundError } from '@rallycoding/common';
-import { ErrorRequestHandler } from 'express';
+import { errorHandler, NotFoundError } from '@rallycoding/common';
 
 import { currentUserRouter } from './routes/current-user';
 import { signinRouter } from './routes/signin';
@@ -16,7 +15,7 @@ app.use(json());
 app.use(
   cookieSession({
     signed: false,
-    secure: false
+    secure: false,
   })
 );
 
@@ -29,8 +28,6 @@ app.all('*', async (req, res) => {
   throw new NotFoundError();
 });
 
-// ✅ Dùng middleware sau khi ép kiểu
-const errorHandler: ErrorRequestHandler = defaultErrorHandler;
 app.use(errorHandler);
 
 export { app };
