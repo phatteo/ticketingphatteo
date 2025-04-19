@@ -9,7 +9,7 @@ build:
   googleCloudBuild:
     projectId: ticketing-dev-455714
   artifacts:
-    - image: asia.gcr.io/ticketing-dev-455714/auth
+    - image: phatteo/auth
       context: auth
       docker:
         dockerfile: Dockerfile
@@ -17,7 +17,7 @@ build:
         manual:
           - src: "src/**/*.ts"
             dest: .
-    - image: asia.gcr.io/ticketing-dev-455714/client
+    - image: phatteo/ticketing-client
       context: client
       docker:
         dockerfile: Dockerfile
@@ -25,7 +25,7 @@ build:
         manual:
           - src: "**/*.js"
             dest: .
-    - image: asia.gcr.io/ticketing-dev-455714/tickets
+    - image: phatteo/tickets
       context: tickets
       docker:
         dockerfile: Dockerfile
@@ -33,7 +33,7 @@ build:
         manual:
           - src: "**/*.ts"
             dest: .
-    - image: asia.gcr.io/ticketing-dev-455714/orders
+    - image: phatteo/orders
       context: orders
       docker:
         dockerfile: Dockerfile
@@ -41,7 +41,7 @@ build:
         manual:
           - src: "**/*.ts"
             dest: .
-    - image: asia.gcr.io/ticketing-dev-455714/expiration
+    - image: phatteo/expiration
       context: expiration
       docker:
         dockerfile: Dockerfile
@@ -49,7 +49,7 @@ build:
         manual:
           - src: "**/*.ts"
             dest: .
-    - image: asia.gcr.io/ticketing-dev-455714/payments
+    - image: phatteo/payments
       context: payments
       docker:
         dockerfile: Dockerfile
