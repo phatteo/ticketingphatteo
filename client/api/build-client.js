@@ -5,7 +5,7 @@ export default ({ req }) => {
   if (typeof window === 'undefined') {
     // We are on the server
     return axios.create({
-      baseURL: 'http://ingress-nginx-controller.ingress-nginx.svc.cluster.local',
+      baseURL: 'https://www.hkhviet.xyz/',
       headers: req.headers,
       httpsAgent: new https.Agent({
         rejectUnauthorized: false, // ⛔ BỎ QUA kiểm tra chứng chỉ SSL
