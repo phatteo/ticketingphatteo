@@ -32,7 +32,6 @@ app.all('*', async (req, res) => {
 });
 
 // Middleware xử lý lỗi – ép kiểu an toàn
-const safeErrorHandler: ErrorRequestHandler = errorHandler;
-app.use(safeErrorHandler);
+app.use(errorHandler as any);
 
 export { app };
