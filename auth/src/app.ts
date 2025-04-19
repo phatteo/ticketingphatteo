@@ -3,6 +3,8 @@ import 'express-async-errors';
 import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
 import { errorHandler, NotFoundError } from '@rallycoding/common';
+import { ErrorRequestHandler } from 'express';
+
 
 import { currentUserRouter } from './routes/current-user';
 import { signinRouter } from './routes/signin';
@@ -28,6 +30,8 @@ app.all('*', async (req, res) => {
   throw new NotFoundError();
 });
 
-app.use(errorHandler);
+const safeErrorHandler: ErrorRequestHandler = errorHandler;
+app.use(safeErrorHandler);
+
 
 export { app };
