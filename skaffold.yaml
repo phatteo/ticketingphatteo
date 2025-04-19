@@ -5,10 +5,10 @@ manifests:
     - ./infra/k8s/*
     - ./infra/k8s-dev/*
 build:
-  # local:
-  #   push: false
-  googleCloudBuild:
-    projectId: ticketing-dev-455714
+  local:
+    push: false
+  # googleCloudBuild:
+  #   projectId: ticketing-dev-455714
   artifacts:
     - image: phatteo/auth
       context: auth
