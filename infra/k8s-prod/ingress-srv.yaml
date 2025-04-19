@@ -10,6 +10,7 @@ metadata:
         return 301 https://hkhviet.xyz$request_uri;
       }
 spec:
+  ingressClassName: nginx  # <-- DÒNG QUAN TRỌNG
   rules:
     - host: hkhviet.xyz
       http:
