@@ -3,7 +3,7 @@ name: deploy-orders
 on:
   push:
     branches:
-      - main
+      - master
     paths:
       - 'orders/**'
 
@@ -11,12 +11,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+      - uses: actions/checkout@v2
+
+      - run: cd orders && docker build -t phatteo/orders .
+
+      - name: Docker login
+        run: echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      - run: cd orders && docker build -t phatteo/orders .
+
       - run: docker push phatteo/orders
       - uses: digitalocean/action-doctl@v2
         with:
