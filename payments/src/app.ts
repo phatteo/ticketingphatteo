@@ -22,7 +22,6 @@ app.all('*', async (req, res) => {
   throw new NotFoundError();
 });
 
-// ✅ Global error handler
 app.use(errorHandler);
 
 export { app };
