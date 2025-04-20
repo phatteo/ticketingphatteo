@@ -9,6 +9,7 @@ import { PaymentCreatedListener } from './events/listeners/payment-created-liste
 
 const start = async () => {
   console.log('Starting up orders service...');
+
   if (!process.env.JWT_KEY) {
     throw new Error('JWT_KEY must be defined');
   }
@@ -26,6 +27,7 @@ const start = async () => {
   }
 
   try {
+    // 1. Connect to NATS
     await natsWrapper.connect(
       process.env.NATS_CLUSTER_ID,
       process.env.NATS_CLIENT_ID,
@@ -38,19 +40,24 @@ const start = async () => {
     process.on('SIGINT', () => natsWrapper.client.close());
     process.on('SIGTERM', () => natsWrapper.client.close());
 
+    // 2. Connect to MongoDB BEFORE listeners
+    await mongoose.connect(process.env.MONGO_URI);
+    console.log('Connected to MongoDb');
+
+    // 3. Start listening to events AFTER Mongo is ready
     new TicketCreatedListener(natsWrapper.client).listen();
     new TicketUpdatedListener(natsWrapper.client).listen();
     new ExpirationCompleteListener(natsWrapper.client).listen();
     new PaymentCreatedListener(natsWrapper.client).listen();
-    await mongoose.connect(process.env.MONGO_URI);
-    console.log('Connected to MongoDb');
+
+    // 4. Start Express app
+    app.listen(3000, () => {
+      console.log('Listening on port 3000!!!!!!!!');
+    });
+
   } catch (err) {
     console.error(err);
   }
-
-  app.listen(3000, () => {
-    console.log('Listening on port 3000!!!!!!!!');
-  });
 };
 
 start();
