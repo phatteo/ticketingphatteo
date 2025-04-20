@@ -1,4 +1,4 @@
-import express, { Request, Response, NextFunction } from 'express';
+import express from 'express';
 import 'express-async-errors';
 import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
@@ -18,11 +18,12 @@ app.use(currentUser);
 
 app.use(createChargeRouter);
 
-// ✅ Sửa lỗi tại đây
-app.all('*', async (req: Request, res: Response, next: NextFunction) => {
+// ✅ NotFoundError handler
+app.all('*', async (_req, _res, next) => {
   next(new NotFoundError());
 });
 
+// ✅ Global error handler
 app.use(errorHandler);
 
 export { app };
