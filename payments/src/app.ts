@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import 'express-async-errors';
 import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
@@ -15,16 +15,14 @@ app.use(
   })
 );
 app.use(currentUser);
-
-// Router xử lý tạo charge
 app.use(createChargeRouter);
 
-// Route không tồn tại
-app.all('*', async (req: Request, res: Response) => {
+// 👇 FIX: ép kiểu cho middleware NotFound
+app.all('*', async (req: Request, res: Response, next: NextFunction) => {
   throw new NotFoundError();
 });
 
-// Xử lý lỗi
-app.use(errorHandler);
+// 👇 FIX: ép kiểu tạm cho errorHandler
+app.use(errorHandler as any);
 
 export { app };
