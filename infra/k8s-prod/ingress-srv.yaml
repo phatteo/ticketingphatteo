@@ -4,43 +4,42 @@ metadata:
   name: ingress-service
   annotations:
     kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/use-regex: "true"  # Nếu thực sự cần regex
 spec:
-  type: LoadBalancer
   rules:
     - host: hkhviet.xyz
       http:
         paths:
-          - path: /api/payments/?(.*)
-            pathType: ImplementationSpecific
+          - path: /api/payments(/|$)(.*)
+            pathType: Prefix
             backend:
               service:
                 name: payments-srv
                 port:
                   number: 3000
-          - path: /api/users/?(.*)
-            pathType: ImplementationSpecific
+          - path: /api/users(/|$)(.*)
+            pathType: Prefix
             backend:
               service:
                 name: auth-srv
                 port:
                   number: 3000
-          - path: /api/tickets/?(.*)
-            pathType: ImplementationSpecific
+          - path: /api/tickets(/|$)(.*)
+            pathType: Prefix
             backend:
               service:
                 name: tickets-srv
                 port:
                   number: 3000
-          - path: /api/orders/?(.*)
-            pathType: ImplementationSpecific
+          - path: /api/orders(/|$)(.*)
+            pathType: Prefix
             backend:
               service:
                 name: orders-srv
                 port:
                   number: 3000
           - path: /?(.*)
-            pathType: ImplementationSpecific
+            pathType: Prefix
             backend:
               service:
                 name: client-srv
@@ -63,7 +62,6 @@ metadata:
   name: ingress-nginx-controller
   namespace: ingress-nginx
 spec:
-  type: LoadBalancer
   externalTrafficPolicy: Local
   ports:
     - name: http
