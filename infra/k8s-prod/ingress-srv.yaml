@@ -11,36 +11,36 @@ spec:
     - host: hkhviet.xyz
       http:
         paths:
-          - path: /api/payments/?(.*)
-            pathType: ImplementationSpecific
+          - path: /api/payments
+            pathType: Prefix
             backend:
               service:
                 name: payments-srv
                 port:
                   number: 3000
-          - path: /api/users/?(.*)
-            pathType: ImplementationSpecific
+          - path: /api/users
+            pathType: Prefix
             backend:
               service:
                 name: auth-srv
                 port:
                   number: 3000
-          - path: /api/tickets/?(.*)
-            pathType: ImplementationSpecific
+          - path: /api/tickets
+            pathType: Prefix
             backend:
               service:
                 name: tickets-srv
                 port:
                   number: 3000
-          - path: /api/orders/?(.*)
-            pathType: ImplementationSpecific
+          - path: /api/orders
+            pathType: Prefix
             backend:
               service:
                 name: orders-srv
                 port:
                   number: 3000
-          - path: /?(.*)
-            pathType: ImplementationSpecific
+          - path: /
+            pathType: Prefix
             backend:
               service:
                 name: client-srv
@@ -50,6 +50,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  name: ingress-nginx-controller
+  namespace: ingress-nginx
   annotations:
     service.beta.kubernetes.io/do-loadbalancer-enable-proxy-protocol: "true"
     service.beta.kubernetes.io/do-loadbalancer-hostname: "www.hkhviet.xyz"
@@ -60,8 +62,6 @@ metadata:
     app.kubernetes.io/version: 0.32.0
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
-  name: ingress-nginx-controller
-  namespace: ingress-nginx
 spec:
   type: LoadBalancer
   externalTrafficPolicy: Local
